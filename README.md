@@ -63,7 +63,7 @@ laundry-erp-docs/
 │   ├── architecture.png             # Diagrama de arquitectura (C4)
 │   └── wireframes/                  # Bocetos de las pantallas principales
 └── technical/
-    └── decisions.md                 # Decisiones técnicas y justificaciones
+    └── stack.md                 # Decisiones técnicas y justificaciones
 ```
 
 ---
