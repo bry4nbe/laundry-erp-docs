@@ -1,53 +1,54 @@
-# Laundry ERP — Documentación del Proyecto
+# Laundry Ops — Arquitectura y Diseño
 
-Sistema de gestión para lavanderías diseñado para reemplazar el registro manual en papel por una plataforma digital accesible desde cualquier dispositivo, incluyendo celulares.
-
----
-
-## Descripción del Problema
-
-Actualmente, la lavandería opera con tickets en papel autocopiativo: una copia queda en el local y otra se entrega al cliente para que la presente al recoger su ropa. Este proceso genera los siguientes problemas:
-
-- No hay visibilidad en tiempo real de las órdenes pendientes, en proceso o listas para entrega.
-- El control de pagos es manual, dificultando saber qué órdenes tienen saldo pendiente.
-- No existe historial digital de clientes ni de sus órdenes anteriores.
-- La operadora principal del local no cuenta con herramientas digitales adaptadas a su perfil de usuario.
+Sistema de gestión para lavanderías diseñado para reemplazar el registro manual en papel por una plataforma digital accesible desde cualquier dispositivo.
 
 ---
 
-## Solución
+## 1. Arquitectura del Sistema (Modelo C4)
 
-**Laundry ERP** es una plataforma web con diseño responsive design que permite:
+### Diagrama de Contexto
+Muestra a los actores principales y los sistemas externos con los que interactúa la plataforma.
+![Contexto C4](./technical/c4-context.png)
 
-- Registrar órdenes de lavado desde un celular de forma simple y rápida.
-- Gestionar pagos parciales (adelantos y saldos pendientes).
-- Hacer seguimiento del estado de cada orden.
-- Visualizar ingresos y métricas clave desde un dashboard.
-
----
-
-## Stack Tecnológico
-
-| Capa | Tecnología |
-|---|---|
-| Frontend | React + Tailwind CSS |
-| Backend | Django + Django REST Framework |
-| Base de datos | PostgreSQL |
-| Autenticación | JWT |
-| Deploy Frontend | Vercel |
-| Deploy Backend | Railway |
-| CI/CD | GitHub Actions |
-| Documentación API | Swagger / OpenAPI |
+### Diagrama de Contenedores
+Zoom a la arquitectura interna: Frontend (SPA), Backend (API REST) y Base de Datos.
+![Contenedores C4](./technical/c4-container.png)
 
 ---
 
-## Repositorios
+## 2. Decisiones de Ingeniería y Diseño
+
+El valor de este proyecto radica en las decisiones técnicas orientadas a resolver problemas del negocio. La justificación detallada se encuentra en los siguientes documentos (ADR):
+
+* 📄 **[Stack Tecnológico y Arquitectura (stack.md)](./technical/stack.md)**: Justificación del monolito modular, máquina de estados con `django-fsm` y transacciones atómicas.
+* 📄 **[Diseño de Base de Datos (database-design.md)](./technical/database-design.md)**: Reglas de negocio aplicadas al modelo relacional (inmutabilidad financiera, auditoría operativa y separación de contextos).
+* 📊 **[Diagrama Entidad-Relación (ERD)](./technical/erd.png)**
+* 🎯 **[User Stories (user-stories.md)](./product/user-stories.md)**: Casos de uso priorizados y definidos usando convención Gherkin.
+
+---
+
+## 3. Descripción del Problema y Solución
+
+**El Problema:** Actualmente la lavandería opera con tickets en papel autocopiativo, generando:
+- Nula visibilidad en tiempo real de las órdenes pendientes, en proceso o listas.
+- Control de caja opaco (dificultad para rastrear pagos parciales, saldos y Yape/Plin).
+- Trazabilidad inexistente para prendas enviadas a terceros (lavado al seco).
+
+**La Solución:** Una plataforma web responsive que permite:
+- Registrar órdenes y gestionar pagos parciales con cálculo automático de saldos.
+- Controlar el flujo de estados (`Recibido` → `En proceso` → `Listo` → `Entregado`).
+- Visualizar ingresos diarios y métricas operativas desde un dashboard.
+---
+
+## 4. Ecosistema de Repositorios
+
+El sistema está dividido para simular un entorno de despliegue real:
 
 | Repositorio | Descripción |
 |---|---|
-| [laundry-erp-backend](https://github.com/laundry-erp/laundry-erp-backend) | API REST con Django |
-| [laundry-erp-frontend](https://github.com/laundry-erp/laundry-erp-frontend) | Interfaz web con React + Tailwind |
-| [laundry-erp-docs](https://github.com/bry4nbe/laundry-erp-docs) | Documentación del proyecto (este repo) |
+| [laundry-ops-api](https://github.com/laundry-erp/laundry-ops-api) | Backend API REST (Django + DRF) |
+| [laundry-ops-web](https://github.com/laundry-erp/laundry-ops-web) | Frontend UI (React + Tailwind CSS) |
+| **[laundry-ops-architecture](https://github.com/bry4nbe/laundry-ops-architecture)** | **Documentación y diseño (Este repositorio)** |
 
 ---
 
@@ -72,13 +73,7 @@ laundry-ops-architecture/
 
 ---
 
-## Estado del Proyecto
-
-> 🟡 En desarrollo — Fase de documentación y diseño
-
----
-
 ## Autor
 
-Desarrollado por **Bryan Barba**.
+Desarrollado por **Bryan Barba**.  
 Stack: Django · React · PostgreSQL · Tailwind CSS
